@@ -46,7 +46,10 @@ class IntegralOutMigration:
         self.population_view.update(pop_update)
 
     def on_time_step(self, event):
-        pop = self.population_view.get(event.index, query="alive =='alive' and sex != 'nan' and internal_outmigration=='No'")
+        pop = self.population_view.get(event.index, query="alive =='alive' and sex != 'nan'")
+        pop['time_since_last_migration'] = event.time - pop['last_outmigration_time']
+        pop = pop[(pop['time_since_last_migration']>pd.Timedelta("365 days")) | ((pop['time_since_last_migration'].notnull())==False)]
+
         prob_df = rate_to_probability(pd.DataFrame(self.int_outmigration_rate(pop.index)))
         prob_df['No'] = 1-prob_df.sum(axis=1)
         prob_df['internal_outmigration'] = self.random.choice(prob_df.index, prob_df.columns, prob_df)
