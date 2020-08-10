@@ -1,9 +1,9 @@
 """
 ========================
-The Core IntegralOutMigration Model
+The Core InternalOutMigration Model
 ========================
 
-This module contains tools modeling IntegralOutMigration
+This module contains tools modeling InternalOutMigration
 
 """
 import pandas as pd
@@ -11,7 +11,7 @@ import pandas as pd
 from vivarium.framework.utilities import rate_to_probability
 
 
-class IntegralOutMigration:
+class InternalOutMigration:
 
     @property
     def name(self):
@@ -65,4 +65,4 @@ class IntegralOutMigration:
         return pd.DataFrame({'internal_outmigration': int_out_migration})
 
     def __repr__(self):
-        return "IntegralOutMigration()"
+        return "InternalOutMigration()"

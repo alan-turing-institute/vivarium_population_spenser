@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 from vivarium import InteractiveContext
 from vivarium_public_health.population.spenser_population import TestPopulation, compute_migration_rates, transform_rate_table
-from vivarium_public_health.population import IntegralOutMigration
+from vivarium_public_health.population import InternalOutMigration
 
 
 @pytest.fixture()
@@ -50,7 +50,7 @@ def test_internal_outmigration(config, base_plugins):
     start_population_size = config.population.population_size
 
     num_days = 365*5
-    components = [TestPopulation(), IntegralOutMigration()]
+    components = [TestPopulation(), InternalOutMigration()]
     simulation = InteractiveContext(components=components,
                                     configuration=config,
                                     plugin_configuration=base_plugins,
