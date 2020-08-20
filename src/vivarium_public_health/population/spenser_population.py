@@ -32,7 +32,7 @@ class TestPopulation():
 
         self.config = builder.configuration
         self.randomness = builder.randomness.get_stream('population_age_fuzz', for_initialization=True)
-        columns = ['age', 'sex', 'location', 'ethnicity', 'alive', 'entrance_time', 'exit_time']
+        columns = ['age', 'sex', 'location', 'ethnicity', 'alive', 'entrance_time', 'exit_time','MSOA']
         self.population_view = builder.population.get_view(columns)
 
         builder.population.initializes_simulants(self.generate_test_population,
@@ -71,15 +71,30 @@ def _build_population(core_population, path_to_data_file):
     index = core_population.index
     core_population_ = pd.read_csv(path_to_data_file)
 
-    population = pd.DataFrame(
-        {'age': core_population_['age'].astype(float),
-         'entrance_time': core_population['entrance_time'],
-         'sex': core_population_['sex'],
-         'alive': pd.Series('alive', index=index),
-         'location': core_population_['location'],
-         'ethnicity': core_population_['ethnicity'],
-         'exit_time': pd.NaT, },
-        index=index)
+    try:
+        population = pd.DataFrame(
+            {'age': core_population_['age'].astype(float),
+             'entrance_time': core_population['entrance_time'],
+             'sex': core_population_['sex'],
+             'alive': pd.Series('alive', index=index),
+             'location': core_population_['location'],
+             'ethnicity': core_population_['ethnicity'],
+             'exit_time': pd.NaT,
+             'MSOA': core_population_['MSOA']},
+            index=index)
+    except:
+        population = pd.DataFrame(
+            {'age': core_population_['age'].astype(float),
+             'entrance_time': core_population['entrance_time'],
+             'sex': core_population_['sex'],
+             'alive': pd.Series('alive', index=index),
+             'location': core_population_['location'],
+             'ethnicity': core_population_['ethnicity'],
+             'exit_time': pd.NaT},
+            index=index)
+
+
+
     return population
 
 
@@ -270,8 +285,9 @@ def prepare_dataset(dataset_path="../daedalus/persistent_data/ssm_E08000032_MSOA
                                  "DC1117EW_C_SEX": "sex",
                                  "DC1117EW_C_AGE": "age",
                                  "DC2101EW_C_ETHPUK11": "ethnicity"},
-                    location_code="E08000032",
-                    lookup_ethnicity="persistant_data/ethnic_lookup.csv"):
+                    location_code=None,
+                    lookup_ethnicity="persistant_data/ethnic_lookup.csv",
+                    loopup_location_code="persistant_data/Middle_Layer_Super_Output_Area__2011__to_Ward__2016__Lookup_in_England_and_Wales.csv"):
     """Read in a dataset (normally stored on daedalus) and convert it into a format readable by vivarium
 
     Args:
@@ -295,7 +311,15 @@ def prepare_dataset(dataset_path="../daedalus/persistent_data/ssm_E08000032_MSOA
         print("\n\nWARNING: BLO ethnicity is removed from the dataset")
         dataset = dataset[~dataset['ethnicity'].isin(["BLO"])]
     if location_code:
+        dataset['MSOA'] = dataset['location']
         dataset['location'] = location_code
+    else:
+        dataset['MSOA'] = dataset['location']
+        lookup = pd.read_csv(loopup_location_code)
+        code_LAD = dict(zip(lookup['MSOA11CD'],
+                                  lookup['LAD16CD']))
+        dataset.replace({"location": code_LAD}, inplace=True)
+
 
     dataset.to_csv(output_path, index=False)
     print(f"\nWrite the dataset at: {output_path}")
