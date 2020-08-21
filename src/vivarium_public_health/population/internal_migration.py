@@ -106,6 +106,7 @@ class InternalMigration:
         '''
         Steps to follow
 
+        TODO 1 and 2
         1. Process int_migration_pool (MSOA, SEX, AGE fields) to map dictionary keys
         2. With the dictionary keys read relevant columns
         3. Get a matrix of n x m where (n is the number of migrants in the pool, m is the number of potential MSOA they can be assign to).
@@ -115,7 +116,7 @@ class InternalMigration:
 
 
         # dummy matrix for now
-        int_migration_matrix =  np.random.rand(int_migration_pool.shape[0], len(self.internal_migration_MSOA_location_dict))
+        int_migration_matrix =  np.random.rand(int_migration_pool.shape[0], len(self.internal_migration_MSOA_location_dict)) #(MSOA to MSOA)
         # normalise the matrix to get rates.
         int_migration_matrix_rate = int_migration_matrix / int_migration_matrix.sum(axis=1)[:,None]
 
