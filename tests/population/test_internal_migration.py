@@ -58,7 +58,7 @@ def config(base_config):
 def test_internal_outmigration(config, base_plugins):
     start_population_size = config.population.population_size
 
-    num_days = 1
+    num_days = 365*5
     components = [TestPopulation(), InternalMigration()]
     simulation = InteractiveContext(components=components,
                                     configuration=config,
@@ -67,27 +67,32 @@ def test_internal_outmigration(config, base_plugins):
 
 
 
-
     df = pd.read_csv(config.path_to_internal_outmigration_file)
 
-    # to save time, only look at locatiosn existing on the test dataset.
-    df_internal_outmigration = df#[(df['LAD.code'] == 'E08000032')]
+    # to save time, only look at locations existing on the test dataset.
+    df_internal_outmigration = df[(df['LAD.code'] == 'E08000032')]
 
     asfr_data = transform_rate_table(df_internal_outmigration, 2011, 2012, config.population.age_start,
                                      config.population.age_end)
 
     simulation._data.write("cause.age_specific_internal_outmigration_rate", asfr_data)
 
+
+    # create dictionary that connects the migration matrix index to the location id
     MSOA_location_index = {}
     LAD_location_index = {}
-
     lad_msoa_df = pd.read_csv('persistant_data/Middle_Layer_Super_Output_Area__2011__to_Ward__2016__Lookup_in_England_and_Wales.csv')
+
+    # for simplicity in this test lets allow the migrants to only move between MSOAs in the same LAD
+    lad_msoa_df = lad_msoa_df[lad_msoa_df['LAD16CD']=='E08000032']
+
     count = 0
     for i in np.unique(lad_msoa_df['MSOA11CD']):
         MSOA_location_index[count] = i
         LAD_location_index[count] = lad_msoa_df[lad_msoa_df['MSOA11CD']==i]['LAD16CD'].values[0]
         count = count + 1
 
+    # save the index data into the component
     simulation._data.write("internal_migration.MSOA_index", MSOA_location_index)
     simulation._data.write("internal_migration.LAD_index", LAD_location_index)
 
@@ -104,4 +109,5 @@ def test_internal_outmigration(config, base_plugins):
     assert (np.all(pop.internal_outmigration == 'Yes') == False)
 
     assert len(pop[pop['last_outmigration_time']!='NaT']) > 0, 'time of out migration gets saved.'
+    assert len(pop[pop['previous_MSOA_locations']!='']) > 0, 'previous location of the migrant gets saved.'
 
