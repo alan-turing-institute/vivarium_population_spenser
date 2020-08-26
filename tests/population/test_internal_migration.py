@@ -56,7 +56,7 @@ def config(base_config):
 
 
 def test_internal_outmigration(config, base_plugins):
-    start_population_size = config.population.population_size
+    # start_population_size = config.population.population_size
 
     num_days = 365*5
     components = [TestPopulation(), InternalMigration()]
