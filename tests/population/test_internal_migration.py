@@ -1,10 +1,10 @@
 from pathlib import Path
-
 import numpy as np
 import os
 import pandas as pd
 import pytest
 import sys
+import wget
 from vivarium import InteractiveContext
 from vivarium_public_health.population.spenser_population import TestPopulation, prepare_dataset, transform_rate_table
 from vivarium_public_health.population import InternalMigration
@@ -51,6 +51,13 @@ def config(base_config):
     return base_config
 
 def test_internal_outmigration(config, base_plugins):
+
+    if os.path.exists(config.path_to_OD_matrix)==False:
+        print ('Downloading OD matrix file')
+        url = 'https://docs.google.com/uc?export=download&id=1Vx1rEVjKimGYoN3vqPR3JjJ8rJ-wwb9g'
+        wget.download(url, out=config.path_to_OD_matrix)
+
+
     num_days = 365*5
     components = [TestPopulation(), InternalMigration()]
     simulation = InteractiveContext(components=components,
