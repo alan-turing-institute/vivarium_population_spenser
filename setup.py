@@ -24,8 +24,10 @@ if __name__ == "__main__":
         'pandas>=0.24.0,<0.25',
         'scipy',
         # FIXME: Requirement imposed by our standard data sources.
-        'tables<=3.4.0',
+        'tables',
         'risk_distributions>=2.0.2',
+        'pytest',
+        'wget'
     ]
 
     test_requirements = [

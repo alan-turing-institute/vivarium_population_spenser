@@ -13,7 +13,7 @@ from vivarium_public_health import utilities
 from vivarium_public_health.population.data_transformations import get_live_births_per_year
 
 # TODO: Incorporate better data into gestational model (probably as a separate component)
-PREGNANCY_DURATION = pd.Timedelta(days=9*utilities.DAYS_PER_MONTH)
+PREGNANCY_DURATION = pd.Timedelta(days=9 * utilities.DAYS_PER_MONTH)
 
 
 class FertilityDeterministic:
@@ -156,15 +156,19 @@ class FertilityAgeSpecificRates:
         builder : vivarium.engine.Builder
             Framework coordination object.
         """
-        age_specific_fertility_rate = self.load_age_specific_fertility_rate_data(builder)
-        fertility_rate = builder.lookup.build_table(age_specific_fertility_rate, parameter_columns=['age', 'year'])
+
+        age_specific_fertility_rate = builder.data.load("covariate.age_specific_fertility_rate.estimate")
+        fertility_rate = builder.lookup.build_table(age_specific_fertility_rate,
+                                                    key_columns=['sex', 'location', 'ethnicity'],
+                                                    parameter_columns=['age', 'year'])
+
         self.fertility_rate = builder.value.register_rate_producer('fertility rate',
                                                                    source=fertility_rate,
-                                                                   requires_columns=['age'])
+                                                                   requires_columns=['sex', 'location', 'ethnicity'])
 
         self.randomness = builder.randomness.get_stream('fertility')
 
-        self.population_view = builder.population.get_view(['last_birth_time', 'sex', 'parent_id'])
+        self.population_view = builder.population.get_view(['last_birth_time', 'sex', 'parent_id','ethnicity', 'location','age'])
         self.simulant_creator = builder.population.get_simulant_creator()
 
         builder.population.initializes_simulants(self.on_initialize_simulants,
@@ -176,12 +180,12 @@ class FertilityAgeSpecificRates:
     def on_initialize_simulants(self, pop_data):
         """ Adds 'last_birth_time' and 'parent' columns to the state table."""
         pop = self.population_view.subview(['sex']).get(pop_data.index)
-        women = pop.loc[pop.sex == 'Female'].index
+        women = pop.loc[pop.sex == 2].index
 
-        if pop_data.user_data['sim_state'] == 'setup':
-            parent_id = -1
-        else:  # 'sim_state' == 'time_step'
+        if pop_data.user_data['sim_state'] == 'time_step':
             parent_id = pop_data.user_data['parent_ids']
+        else:
+            parent_id = -1
         pop_update = pd.DataFrame({'last_birth_time': pd.NaT, 'parent_id': parent_id}, index=pop_data.index)
         # FIXME: This is a misuse of the column and makes it invalid for
         #    tracking metrics.
@@ -200,7 +204,7 @@ class FertilityAgeSpecificRates:
         """
         # Get a view on all living women who haven't had a child in at least nine months.
         nine_months_ago = pd.Timestamp(event.time - PREGNANCY_DURATION)
-        population = self.population_view.get(event.index, query='alive == "alive" and sex =="Female"')
+        population = self.population_view.get(event.index, query='alive == "alive" and sex == 2')
         can_have_children = population.last_birth_time < nine_months_ago
         eligible_women = population[can_have_children]
 
@@ -212,6 +216,7 @@ class FertilityAgeSpecificRates:
 
         # If children were born, add them to the state table and record
         # who their mother was.
+        # TODO Need to add location and ethnicity of parents/mother to child when they are born.
         num_babies = len(had_children)
         if num_babies:
             self.simulant_creator(num_babies,
@@ -222,10 +227,23 @@ class FertilityAgeSpecificRates:
                                       'parent_ids': had_children.index
                                   })
 
+            # assign sex, ethnicity and location to the new born babies in this time step
+            new_babies = self.population_view.get(event.index, query='alive == "alive" and parent_id != -1 and sex == "nan"')
+
+            if new_babies.shape[0] != 0:
+
+                new_babies['location'] = self.population_view.get(event.index).iloc[new_babies['parent_id']]['location'].values
+                new_babies['ethnicity'] = self.population_view.get(event.index).iloc[new_babies['parent_id']]['ethnicity'].values
+
+                new_babies['sex'] = self.randomness.choice(new_babies.index, [1.0, 2.0], additional_key='sex_choice')
+                new_babies['age'] = 0.0
+
+                self.population_view.update(new_babies[['location','ethnicity','sex','age']])
+
     def load_age_specific_fertility_rate_data(self, builder):
         asfr_data = builder.data.load("covariate.age_specific_fertility_rate.estimate")
-        columns = ['year_start', 'year_end', 'age_start', 'age_end', 'mean_value']
-        asfr_data = asfr_data.loc[asfr_data.sex == 'Female'][columns]
+        columns = ['year_start', 'year_end', 'location', 'ethnicity', 'age_start', 'age_end', 'mean_value']
+        asfr_data = asfr_data.loc[asfr_data.sex == 2][columns]
         return asfr_data
 
     def __repr__(self):
