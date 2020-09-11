@@ -106,6 +106,7 @@ def test_internal_outmigration(config, base_plugins):
 
     simulation.setup()
 
+
     simulation.run_for(duration=pd.Timedelta(days=num_days))
     pop = simulation.get_population()
 
