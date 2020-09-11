@@ -117,7 +117,7 @@ class InternalMigration:
 
     def get_OD_matrix_age_gender(self,int_migration_pool):
         import random
-        indexes = random.sample(range(len(self.list_OD_matrices_name)),int_migration_pool.shape[0])
+        indexes = random.choices(range(len(self.list_OD_matrices_name)),k=int_migration_pool.shape[0])
         return indexes
 
     def read_OD_matrices_to_list(self):
