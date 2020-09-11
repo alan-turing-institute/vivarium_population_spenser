@@ -9,7 +9,7 @@ This module contains tools modeling InternalMigration
 import pandas as pd
 import numpy as np
 from vivarium.framework.utilities import rate_to_probability
-
+import os
 
 class InternalMigration:
 
@@ -28,6 +28,8 @@ class InternalMigration:
         self.MSOA_LAD_indices = builder.data.load("internal_migration.MSOA_LAD_indices")
         self.OD_matrix = builder.data.load("internal_migration.OD_matrix")
 
+        self.path_to_OD_matrices = os.path.join('persistant_data','od_matrices')
+
         self.int_out_migration_rate = builder.lookup.build_table(int_outmigration_data, 
                                                                  key_columns=['sex', 'location', 'ethnicity'],
                                                                  parameter_columns=['age', 'year'])
@@ -35,6 +37,8 @@ class InternalMigration:
         self.int_outmigration_rate = builder.value.register_rate_producer('int_outmigration_rate',
                                                                           source=self.calculate_outmigration_rate,
                                                                           requires_columns=['sex', 'location', 'ethnicity'])
+
+        self.list_OD_matrices, self.list_OD_matrices_name = self.read_OD_matrices_to_list()
 
         self.random = builder.randomness.get_stream('outmigtation_handler')
         self.clock = builder.time.clock()
@@ -111,6 +115,24 @@ class InternalMigration:
 
         return (MSOA_choices_name,LAD_choices_name)
 
+    def get_OD_matrix_age_gender(self,int_migration_pool):
+        import random
+        indexes = random.sample(range(len(self.list_OD_matrices_name)),int_migration_pool.shape[0])
+        return indexes
+
+    def read_OD_matrices_to_list(self):
+
+        import glob
+        list_of_files = glob.glob(os.path.join(self.path_to_OD_matrices,'*.csv'))[:2]
+
+        list_of_OD_matrices = []
+        for file in list_of_files:
+            list_of_OD_matrices.append(pd.read_csv(file).values)
+
+        return np.array(list_of_OD_matrices), list_of_files
+
+
+
     def get_migration_matrix(self,int_migration_pool):
         '''
         Steps to follow
@@ -123,9 +145,13 @@ class InternalMigration:
                                               left_on="Destinations", 
                                               right_on=["MSOA"])
 
-        int_migration_matrix = self.OD_matrix[sel_rows.indices.to_list()]
+        #int_migration_matrix = self.OD_matrix[sel_rows.indices.to_list()]
+
+        matrix_index = self.get_OD_matrix_age_gender(int_migration_pool)
+        int_migration_matrix = self.list_OD_matrices[matrix_index,sel_rows.indices.to_list()]
+
         # Normalise the matrix to get rates
-        int_migration_matrix_rate = int_migration_matrix / int_migration_matrix.sum(axis=1)[:, None]
+        int_migration_matrix_rate = int_migration_matrix[:, 1:] / int_migration_matrix[:, 1:].sum(axis=1)[:, None]
 
         return int_migration_matrix_rate
 
