@@ -11,6 +11,7 @@ from typing import Union
 
 import glob
 import numpy as np
+import os
 import pandas as pd
 from scipy.sparse import coo_matrix
 import scipy
@@ -26,12 +27,17 @@ def csv2sparse(path2csv="../persistant_data/od_matrices/*.csv"):
 
     list_of_files = glob.glob(path2csv)
     
-    for fi in list_of_files:
-    #     od_map = {}
-    #     for i, item in enumerate(od[:, 0]):
-    #         od_map[item] = i
+    for i, fi in enumerate(list_of_files):
         print(f"Processing: {fi}")
         od = pd.read_csv(fi).values
+
+        if i == 0:
+            od_map = {}
+            for i, item in enumerate(od[:, 0]):
+                od_map[item] = i
+            od_map_pd = pd.DataFrame.from_dict(od_map, orient="index", columns=["indices"]) 
+            od_map_pd.to_csv(os.path.join(os.path.dirname(fi), os.pardir, "MSOA_to_OD_index.csv"))
+        
         od_val = od[:, 1:]
         od_val = od_val.astype(np.float)
         od_val_sparse = coo_matrix(od_val)
