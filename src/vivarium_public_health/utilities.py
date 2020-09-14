@@ -9,7 +9,11 @@ vivarium_public_health components.
 """
 from typing import Union
 
+import glob
+import numpy as np
 import pandas as pd
+from scipy.sparse import coo_matrix
+import scipy
 import yaml
 
 def read_config_file(filename=r'../config/model_specification.yaml'):
@@ -17,6 +21,21 @@ def read_config_file(filename=r'../config/model_specification.yaml'):
     with open(filename) as inp_file_io:
         inp_file = yaml.load(inp_file_io, Loader=yaml.FullLoader)
     return inp_file
+
+def csv2sparse(path2csv="../persistant_data/od_matrices/*.csv"):
+
+    list_of_files = glob.glob(path2csv)
+    
+    for fi in list_of_files:
+    #     od_map = {}
+    #     for i, item in enumerate(od[:, 0]):
+    #         od_map[item] = i
+        print(f"Processing: {fi}")
+        od = pd.read_csv(fi).values
+        od_val = od[:, 1:]
+        od_val = od_val.astype(np.float)
+        od_val_sparse = coo_matrix(od_val)
+        scipy.sparse.save_npz(fi.split(".csv")[0] + ".npz", od_val_sparse)
 
 class EntityString(str):
     """Convenience class for representing entities as strings."""
