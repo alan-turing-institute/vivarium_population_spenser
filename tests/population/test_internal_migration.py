@@ -92,6 +92,7 @@ def test_internal_outmigration(config, base_plugins):
     simulation._data.write("internal_migration.MSOA_index", MSOA_location_index)
     simulation._data.write("internal_migration.LAD_index", LAD_location_index)
     simulation._data.write("internal_migration.MSOA_LAD_indices", OD_matrix_with_LAD)
+    simulation._data.write("internal_migration.path_to_OD_matrices", config.path_to_OD_matrices)
 
     simulation.setup()
 

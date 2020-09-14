@@ -29,7 +29,7 @@ class InternalMigration:
         self.internal_migration_LAD_location_dict = builder.data.load("internal_migration.LAD_index")
         self.MSOA_LAD_indices = builder.data.load("internal_migration.MSOA_LAD_indices")
 
-        self.path_to_OD_matrices = os.path.join('persistant_data','od_matrices')
+        self.path_to_OD_matrices = builder.data.load("internal_migration.path_to_OD_matrices") 
 
         self.int_out_migration_rate = builder.lookup.build_table(int_outmigration_data, 
                                                                  key_columns=['sex', 'location', 'ethnicity'],
@@ -163,7 +163,9 @@ class InternalMigration:
         # Normalise the matrix to get rates
         #int_migration_matrix_rate = int_migration_matrix[:, 1:] / int_migration_matrix[:, 1:].sum(axis=1)[:, None]
 
-        int_migration_matrix_rate = int_migration_matrix / int_migration_matrix.sum(axis=1)[:, None]
+        int_migration_matrix += 1e-10
+        row_sum = int_migration_matrix.sum(axis=1)
+        int_migration_matrix_rate = int_migration_matrix / row_sum[:, None]
 
         return int_migration_matrix_rate
 
