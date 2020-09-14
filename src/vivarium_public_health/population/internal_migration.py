@@ -28,7 +28,6 @@ class InternalMigration:
         self.internal_migration_MSOA_location_dict = builder.data.load("internal_migration.MSOA_index")
         self.internal_migration_LAD_location_dict = builder.data.load("internal_migration.LAD_index")
         self.MSOA_LAD_indices = builder.data.load("internal_migration.MSOA_LAD_indices")
-        self.OD_matrix = builder.data.load("internal_migration.OD_matrix")
 
         self.path_to_OD_matrices = os.path.join('persistant_data','od_matrices')
 
@@ -153,7 +152,7 @@ class InternalMigration:
         4. Return the rate  matrix of n x m
         '''
         sel_rows = self.MSOA_LAD_indices.merge(int_migration_pool, 
-                                              left_on="Destinations", 
+                                              left_on="MSOA11CD",
                                               right_on=["MSOA"])
 
         #int_migration_matrix = self.OD_matrix[sel_rows.indices.to_list()]
