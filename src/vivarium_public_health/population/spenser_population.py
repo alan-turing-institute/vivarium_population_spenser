@@ -31,6 +31,7 @@ class TestPopulation():
     def setup(self, builder):
 
         self.config = builder.configuration
+
         self.randomness = builder.randomness.get_stream('population_age_fuzz', for_initialization=True)
         columns = ['age', 'sex', 'location', 'ethnicity', 'alive', 'entrance_time', 'exit_time','MSOA']
         self.population_view = builder.population.get_view(columns)
@@ -90,7 +91,8 @@ def _build_population(core_population, path_to_data_file):
              'alive': pd.Series('alive', index=index),
              'location': core_population_['location'],
              'ethnicity': core_population_['ethnicity'],
-             'exit_time': pd.NaT},
+             'exit_time': pd.NaT,
+             'MSOA':core_population_['MSOA']},
             index=index)
 
 

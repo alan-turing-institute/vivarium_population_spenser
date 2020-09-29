@@ -58,12 +58,12 @@ def test_Immigration(config, base_plugins):
 
     df_total_population = pd.read_csv(config.path_to_total_population_file)
     df_total_population = df_total_population[
-        (df_total_population['LAD'] == 'E09000002')]
+        (df_total_population['LAD'] == 'E08000032')]
     
     # setup immigration rates
     df_immigration = pd.read_csv(config.path_to_immigration_file)
     df_immigration = df_immigration[
-        (df_immigration['LAD.code'] == 'E09000002')]
+        (df_immigration['LAD.code'] == 'E08000032')]
     
     asfr_data_immigration = compute_migration_rates(df_immigration, df_total_population, 
                                                     2011, 

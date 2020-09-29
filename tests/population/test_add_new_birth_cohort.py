@@ -55,7 +55,7 @@ def test_fertility_module(config, base_plugins):
     df = pd.read_csv(config.path_to_fertility_file)
 
     # to save time, only look at locatiosn existing on the test dataset.
-    fertility_rate_df = df[(df['LAD.code'] == 'E09000002') | (df['LAD.code'] == 'E09000003')]
+    fertility_rate_df = df[(df['LAD.code'] == 'E08000032')]
 
     asfr_data = transform_rate_table(fertility_rate_df, 2011, 2012, 10,50,[2])
 
@@ -74,7 +74,7 @@ def test_fertility_module(config, base_plugins):
     simulation.run_for(duration=pd.Timedelta(days=num_days))
 
     pop = simulation.get_population()
-    # print(pop)
+    print(pop)
 
     # No death in this model.
     assert np.all(pop.alive == 'alive'), 'expect all simulants to be alive'
