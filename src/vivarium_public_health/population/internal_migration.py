@@ -118,7 +118,7 @@ class InternalMigration:
 
     def get_OD_matrix_age_gender(self, int_migration_pool):
         # Age buckets based on the file names
-        cut_bins = [0, 5, 16, 20, 25, 35, 50, 65, 75, 200]
+        cut_bins = [-1, 5, 16, 20, 25, 35, 50, 65, 75, 200]
         cut_labels = ["0to4", "5to15", "16to19", "20to24", "25to34", "35to49", "50to64", "65to74", "75plus"]
         int_migration_pool.loc[:, "age_bucket"] = pd.cut(int_migration_pool['age'], bins=cut_bins, labels=cut_labels)
         # XXX recheck the sex_map
