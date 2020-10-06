@@ -9,7 +9,7 @@ Currently, we have a deterministic immigration component in which:
 
 """
 import pandas as pd
-
+import numpy as np
 from vivarium_public_health import utilities
 
 
@@ -67,9 +67,8 @@ class ImmigrationDeterministic:
                                   })
         
         # XXX make sure this does not conflict with fertility XXX
-        new_residents = self.population_view.get(event.index, query='sex == "nan"')
+        new_residents = self.population_view.get(event.index+simulants_to_add,query='sex == "nan" and immigrated != "no_immigration"').copy()
         
-        new_residents = new_residents.query('immigrated != "no_immigration"').copy()
         if len(new_residents) > 0:
             # sample residents using the immigration rates
             sample_resident = self.asfr_data_immigration.sample(len(new_residents), weights="mean_value", replace=True)
@@ -82,5 +81,5 @@ class ImmigrationDeterministic:
             self.population_view.update(new_residents[['immigrated', 'location', 'ethnicity', 'sex', 'age']])
 
 
-    def __repr__(self):
+def __repr__(self):
         return "ImmigrationDeterministic()"

@@ -228,7 +228,7 @@ class FertilityAgeSpecificRates:
                                   })
 
             # assign sex, ethnicity and location to the new born babies in this time step
-            new_babies = self.population_view.get(event.index, query='alive == "alive" and parent_id != -1 and sex == "nan"')
+            new_babies = self.population_view.get(event.index+num_babies, query='alive == "alive" and parent_id != -1 and sex == "nan"')
 
             if new_babies.shape[0] != 0:
 
