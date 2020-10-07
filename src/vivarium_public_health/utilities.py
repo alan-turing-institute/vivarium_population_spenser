@@ -108,3 +108,22 @@ def to_time_delta(span_in_days: Union[int, float, str]):
 def to_years(time: pd.Timedelta) -> float:
     """Converts a time delta to a float for years."""
     return time / pd.Timedelta(days=DAYS_PER_YEAR)
+
+def map_missing_LAD(LAD_names):
+    '''Maps LAD names to the ones needed existing in the rates'''
+
+    missing_LAD = ['E06000052', 'E06000053', 'E06000057', 'E07000240', 'E07000241',
+       'E07000242', 'E07000243', 'E08000037', 'E09000001', 'E09000033']
+
+    map_dict = {'E09000001': 'E09000001+E09000033', 'E09000033': 'E09000001+E09000033',
+                'E06000052': 'E06000052+E06000053', 'E06000053': 'E06000052+E06000053',
+                'E06000057': 'E06000052+E06000053', 'E07000240': 'E06000052+E06000053',
+                'E07000241': 'E06000052+E06000053', 'E07000242': 'E06000052+E06000053',
+                'E07000243': 'E06000052+E06000053', 'E08000037': 'E06000052+E06000053'}
+
+    for index, value in enumerate(LAD_names):
+
+        if value in missing_LAD:
+            LAD_names[index] = map_dict[value]
+
+    return LAD_names

@@ -11,6 +11,7 @@ import scipy
 import pandas as pd
 import numpy as np
 from vivarium.framework.utilities import rate_to_probability
+from vivarium_public_health.utilities import map_missing_LAD
 import os
 
 class InternalMigration:
@@ -113,6 +114,9 @@ class InternalMigration:
         # from the MSOA index get the new MSOA and LAD location name
         MSOA_choices_name = list(map(self.internal_migration_MSOA_location_dict.get, MSOA_choices))
         LAD_choices_name = list(map(self.internal_migration_LAD_location_dict.get, MSOA_choices))
+
+        # making sure that there are not LAD codes that do not exist on the rates.
+        LAD_choices_name = map_missing_LAD(LAD_choices_name)
 
         return (MSOA_choices_name,LAD_choices_name)
 
