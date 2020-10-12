@@ -36,9 +36,11 @@ def config(base_config):
     filename_immigration_rate = 'Immig_2011_2012_LEEDS2.csv'
     path_to_immigration_file = "{}/{}".format(path_dir, filename_immigration_rate)
 
+    filename_immigration_MSOA = 'Immigration_MSOA_M_F.csv'
+    path_to_immigration_MSOA = "{}/{}".format(path_dir, filename_immigration_MSOA)
+
     path_to_pop_file= "{}/{}".format(path_dir,filename_pop)
     path_to_mortality_file= "{}/{}".format(path_dir,filename_mortality_rate)
-    path_to_immigration_file = "{}/{}".format(path_dir, filename_immigration_rate)
 
     pop_size = len(pd.read_csv(path_to_pop_file))
 
@@ -50,6 +52,7 @@ def config(base_config):
         'path_to_emigration_file': path_to_emigration_file,
         'path_to_immigration_file': path_to_immigration_file,
         'path_to_total_population_file': path_to_total_population_file,
+        'path_to_immigration_MSOA': path_to_immigration_MSOA,
 
         'population': {
             'population_size': pop_size,
@@ -115,6 +118,9 @@ def test_pipeline(config, base_plugins):
 
     simulation._data.write("cause.all_causes.cause_specific_immigration_rate", asfr_data_immigration)
     simulation._data.write("cause.all_causes.cause_specific_total_immigrants_per_year", total_immigrants)
+
+    df_immigration_MSOA = pd.read_csv(config.path_to_immigration_MSOA)
+    simulation._data.write("cause.all_causes.immigration_to_MSOA", df_immigration_MSOA)
 
     simulation.setup()
     time_start = simulation._clock.time
