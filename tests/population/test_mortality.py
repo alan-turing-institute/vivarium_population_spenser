@@ -55,7 +55,7 @@ def test_Mortality(config, base_plugins):
     df = pd.read_csv(config.path_to_mortality_file)
 
     # to save time, only look at locatiosn existing on the test dataset.
-    mortality_rate_df = df[(df['LAD.code']=='E09000002') | (df['LAD.code']=='E09000003')]
+    mortality_rate_df = df[(df['LAD.code']=='E08000032')]
 
     asfr_data = transform_rate_table(mortality_rate_df, 2011, 2012, config.population.age_start, config.population.age_end)
 

@@ -6,10 +6,13 @@ The Core InternalMigration Model
 This module contains tools modeling InternalMigration
 
 """
+import glob
+import scipy
 import pandas as pd
 import numpy as np
 from vivarium.framework.utilities import rate_to_probability
-
+from vivarium_public_health.utilities import map_missing_LAD
+import os
 
 class InternalMigration:
 
@@ -26,7 +29,8 @@ class InternalMigration:
         self.internal_migration_MSOA_location_dict = builder.data.load("internal_migration.MSOA_index")
         self.internal_migration_LAD_location_dict = builder.data.load("internal_migration.LAD_index")
         self.MSOA_LAD_indices = builder.data.load("internal_migration.MSOA_LAD_indices")
-        self.OD_matrix = builder.data.load("internal_migration.OD_matrix")
+
+        self.path_to_OD_matrices = builder.data.load("internal_migration.path_to_OD_matrices") 
 
         self.int_out_migration_rate = builder.lookup.build_table(int_outmigration_data, 
                                                                  key_columns=['sex', 'location', 'ethnicity'],
@@ -35,6 +39,8 @@ class InternalMigration:
         self.int_outmigration_rate = builder.value.register_rate_producer('int_outmigration_rate',
                                                                           source=self.calculate_outmigration_rate,
                                                                           requires_columns=['sex', 'location', 'ethnicity'])
+
+        self.list_OD_matrices, self.map_OD_file2index = self.read_OD_matrices_to_list()
 
         self.random = builder.randomness.get_stream('outmigtation_handler')
         self.clock = builder.time.clock()
@@ -109,7 +115,37 @@ class InternalMigration:
         MSOA_choices_name = list(map(self.internal_migration_MSOA_location_dict.get, MSOA_choices))
         LAD_choices_name = list(map(self.internal_migration_LAD_location_dict.get, MSOA_choices))
 
+        # making sure that there are not LAD codes that do not exist on the rates.
+        LAD_choices_name = map_missing_LAD(LAD_choices_name)
+
         return (MSOA_choices_name,LAD_choices_name)
+
+    def get_OD_matrix_age_gender(self, int_migration_pool):
+        # Age buckets based on the file names
+        cut_bins = [-1, 5, 16, 20, 25, 35, 50, 65, 75, 200]
+        cut_labels = ["0to4", "5to15", "16to19", "20to24", "25to34", "35to49", "50to64", "65to74", "75plus"]
+        int_migration_pool.loc[:, "age_bucket"] = pd.cut(int_migration_pool['age'], bins=cut_bins, labels=cut_labels)
+        # XXX recheck the sex_map
+        int_migration_pool.loc[:, "sex_map"] = int_migration_pool["sex"].map({1: 'M', 2: 'F'}) 
+
+        int_migration_pool["path2od_matrix"] = \
+            int_migration_pool["sex_map"].astype(str) + "_" + int_migration_pool["age_bucket"].astype(str) + "_" + "prob_matrix_EW.npz"
+        int_migration_pool.loc[:, "id2od_matrix"] = int_migration_pool["path2od_matrix"].replace(self.map_OD_file2index)
+        indexes = int_migration_pool["id2od_matrix"].to_numpy()
+        indexes = indexes.astype(np.int)
+        return indexes
+
+    def read_OD_matrices_to_list(self):
+
+        list_of_files = glob.glob(os.path.join(self.path_to_OD_matrices, '*.npz'))
+
+        list_of_OD_matrices = []
+        map_OD_file2index = {}
+        for i, file in enumerate(list_of_files):
+            map_OD_file2index[os.path.basename(file)] = i
+            od_npz = scipy.sparse.load_npz(file)
+            list_of_OD_matrices.append(od_npz.A)
+        return np.array(list_of_OD_matrices), map_OD_file2index
 
     def get_migration_matrix(self,int_migration_pool):
         '''
@@ -120,12 +156,20 @@ class InternalMigration:
         4. Return the rate  matrix of n x m
         '''
         sel_rows = self.MSOA_LAD_indices.merge(int_migration_pool, 
-                                              left_on="Destinations", 
+                                              left_on="MSOA11CD",
                                               right_on=["MSOA"])
 
-        int_migration_matrix = self.OD_matrix[sel_rows.indices.to_list()]
+        #int_migration_matrix = self.OD_matrix[sel_rows.indices.to_list()]
+
+        matrix_index = self.get_OD_matrix_age_gender(int_migration_pool)
+        int_migration_matrix = self.list_OD_matrices[matrix_index, sel_rows.indices.to_list()]
+
         # Normalise the matrix to get rates
-        int_migration_matrix_rate = int_migration_matrix / int_migration_matrix.sum(axis=1)[:, None]
+        #int_migration_matrix_rate = int_migration_matrix[:, 1:] / int_migration_matrix[:, 1:].sum(axis=1)[:, None]
+
+        int_migration_matrix += 1e-10
+        row_sum = int_migration_matrix.sum(axis=1)
+        int_migration_matrix_rate = int_migration_matrix / row_sum[:, None]
 
         return int_migration_matrix_rate
 

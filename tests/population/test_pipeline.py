@@ -36,9 +36,11 @@ def config(base_config):
     filename_immigration_rate = 'Immig_2011_2012_LEEDS2.csv'
     path_to_immigration_file = "{}/{}".format(path_dir, filename_immigration_rate)
 
+    filename_immigration_MSOA = 'Immigration_MSOA_M_F.csv'
+    path_to_immigration_MSOA = "{}/{}".format(path_dir, filename_immigration_MSOA)
+
     path_to_pop_file= "{}/{}".format(path_dir,filename_pop)
     path_to_mortality_file= "{}/{}".format(path_dir,filename_mortality_rate)
-    path_to_immigration_file = "{}/{}".format(path_dir, filename_immigration_rate)
 
     pop_size = len(pd.read_csv(path_to_pop_file))
 
@@ -50,6 +52,7 @@ def config(base_config):
         'path_to_emigration_file': path_to_emigration_file,
         'path_to_immigration_file': path_to_immigration_file,
         'path_to_total_population_file': path_to_total_population_file,
+        'path_to_immigration_MSOA': path_to_immigration_MSOA,
 
         'population': {
             'population_size': pop_size,
@@ -77,13 +80,13 @@ def test_pipeline(config, base_plugins):
 
     # setup mortality rates
     df = pd.read_csv(config.path_to_mortality_file)
-    mortality_rate_df = df[(df['LAD.code']=='E09000002') | (df['LAD.code']=='E09000003')]
+    mortality_rate_df = df[(df['LAD.code']=='E08000032')]
     asfr_data = transform_rate_table(mortality_rate_df, 2011, 2012, config.population.age_start, config.population.age_end)
     simulation._data.write("cause.all_causes.cause_specific_mortality_rate", asfr_data)
 
     # setup fertility rates
     df_fertility = pd.read_csv(config.path_to_fertility_file)
-    fertility_rate_df = df_fertility[(df_fertility['LAD.code'] == 'E09000002') | (df_fertility['LAD.code'] == 'E09000003')]
+    fertility_rate_df = df_fertility[(df_fertility['LAD.code'] == 'E08000032') ]
     asfr_data_fertility = transform_rate_table(fertility_rate_df, 2011, 2012, 10, 50, [2])
     simulation._data.write("covariate.age_specific_fertility_rate.estimate", asfr_data_fertility)
 
@@ -91,16 +94,16 @@ def test_pipeline(config, base_plugins):
     df_emigration = pd.read_csv(config.path_to_emigration_file)
     df_total_population = pd.read_csv(config.path_to_total_population_file)
     df_emigration = df_emigration[
-        (df_emigration['LAD.code'] == 'E09000002') | (df_emigration['LAD.code'] == 'E09000003')]
+        (df_emigration['LAD.code'] == 'E08000032')]
     df_total_population = df_total_population[
-        (df_total_population['LAD'] == 'E09000002') | (df_total_population['LAD'] == 'E09000003')]
+        (df_total_population['LAD'] == 'E08000032')]
     asfr_data_emigration = compute_migration_rates(df_emigration, df_total_population, 2011, 2012, config.population.age_start, config.population.age_end)
     simulation._data.write("covariate.age_specific_migration_rate.estimate", asfr_data_emigration)
 
     # setup immigration rates
     df_immigration = pd.read_csv(config.path_to_immigration_file)
     df_immigration = df_immigration[
-        (df_immigration['LAD.code'] == 'E09000002') | (df_immigration['LAD.code'] == 'E09000003') ]
+        (df_immigration['LAD.code'] == 'E08000032') ]
 
     asfr_data_immigration = compute_migration_rates(df_immigration, df_total_population,
                                                     2011,
@@ -115,6 +118,9 @@ def test_pipeline(config, base_plugins):
 
     simulation._data.write("cause.all_causes.cause_specific_immigration_rate", asfr_data_immigration)
     simulation._data.write("cause.all_causes.cause_specific_total_immigrants_per_year", total_immigrants)
+
+    df_immigration_MSOA = pd.read_csv(config.path_to_immigration_MSOA)
+    simulation._data.write("cause.all_causes.immigration_to_MSOA", df_immigration_MSOA)
 
     simulation.setup()
     time_start = simulation._clock.time
