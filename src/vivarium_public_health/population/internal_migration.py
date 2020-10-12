@@ -129,7 +129,7 @@ class InternalMigration:
         int_migration_pool.loc[:, "sex_map"] = int_migration_pool["sex"].map({1: 'M', 2: 'F'}) 
 
         int_migration_pool["path2od_matrix"] = \
-            int_migration_pool["sex_map"].astype(str) + "_" + int_migration_pool["age_bucket"].astype(str) + "_" + "OD_matrix_EW.npz"
+            int_migration_pool["sex_map"].astype(str) + "_" + int_migration_pool["age_bucket"].astype(str) + "_" + "prob_matrix_EW.npz"
         int_migration_pool.loc[:, "id2od_matrix"] = int_migration_pool["path2od_matrix"].replace(self.map_OD_file2index)
         indexes = int_migration_pool["id2od_matrix"].to_numpy()
         indexes = indexes.astype(np.int)
