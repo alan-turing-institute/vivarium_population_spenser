@@ -53,6 +53,7 @@ def config(base_config):
         }, source=str(Path(__file__).resolve()))
     return base_config
 
+@pytest.skipIf("TRAVIS" in os.environ and os.environ["TRAVIS"] == "true", "Skipping this test on Travis CI.")
 def test_internal_outmigration(config, base_plugins):
 
     num_days = 365*5
