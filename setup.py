@@ -20,7 +20,7 @@ if __name__ == "__main__":
         # TODO: update with newer version once released
         'vivarium>=0.9.1',
         # FIXME: Newer versions of numpy have conflicting dependencies with pytables.
-        'numpy<=1.15.4',
+        'numpy',
         'pandas>=0.24.0,<0.25',
         'scipy',
         # FIXME: Requirement imposed by our standard data sources.
