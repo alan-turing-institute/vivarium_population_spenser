@@ -4,7 +4,7 @@ Utilities
 =========
 
 This module contains utility classes and functions for use across
-vivarium_public_health components.
+vivarium_population_spenser components.
 
 """
 from typing import Union

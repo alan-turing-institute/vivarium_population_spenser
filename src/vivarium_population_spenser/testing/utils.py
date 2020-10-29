@@ -3,7 +3,7 @@
 Testing Utilities
 =================
 
-This module contains data generation tools for testing vivarium_public_health
+This module contains data generation tools for testing vivarium_population_spenser
 components.
 
 """

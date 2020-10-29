@@ -10,7 +10,7 @@ Currently, we have a deterministic immigration component in which:
 """
 import pandas as pd
 import numpy as np
-from vivarium_public_health import utilities
+from vivarium_population_spenser import utilities
 
 
 class ImmigrationDeterministic:

@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 from vivarium.testing_utilities import get_randomness, build_table
-from vivarium_public_health.testing.utils import make_uniform_pop_data
-import vivarium_public_health.population.data_transformations as dt
+from vivarium_population_spenser.testing.utils import make_uniform_pop_data
+import vivarium_population_spenser.population.data_transformations as dt
 
 
 def test_assign_demographic_proportions():

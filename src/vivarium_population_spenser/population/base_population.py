@@ -10,10 +10,10 @@ characteristics to simulants.
 import pandas as pd
 import numpy as np
 
-from vivarium_public_health import utilities
-from vivarium_public_health.population.data_transformations import (assign_demographic_proportions,
-                                                                    rescale_binned_proportions,
-                                                                    smooth_ages, load_population_structure)
+from vivarium_population_spenser import utilities
+from vivarium_population_spenser.population.data_transformations import (assign_demographic_proportions,
+                                                                         rescale_binned_proportions,
+                                                                         smooth_ages, load_population_structure)
 
 
 class BasePopulation:

@@ -17,9 +17,9 @@
 import os
 import sys
 
-import vivarium_public_health
+import vivarium_population_spenser
 
-src_dir = os.path.dirname(vivarium_public_health.__file__)
+src_dir = os.path.dirname(vivarium_population_spenser.__file__)
 
 about = {}
 with open(os.path.join(src_dir, "__about__.py")) as f:

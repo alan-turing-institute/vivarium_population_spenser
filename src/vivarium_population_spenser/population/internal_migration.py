@@ -11,7 +11,7 @@ import scipy
 import pandas as pd
 import numpy as np
 from vivarium.framework.utilities import rate_to_probability
-from vivarium_public_health.utilities import map_missing_LAD
+from vivarium_population_spenser.utilities import map_missing_LAD
 import os
 
 class InternalMigration:
