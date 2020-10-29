@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import pytest
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation, build_fertility_table, transform_rate_table
+from vivarium_population_spenser.population.spenser_population import TestPopulation, build_fertility_table, transform_rate_table
 
-from vivarium_public_health import utilities
-from vivarium_public_health.population import FertilityAgeSpecificRates
+from vivarium_population_spenser import utilities
+from vivarium_population_spenser.population import FertilityAgeSpecificRates
 
 
 @pytest.fixture()

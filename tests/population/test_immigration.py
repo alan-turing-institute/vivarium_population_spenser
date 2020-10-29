@@ -4,11 +4,11 @@ import numpy as np
 import pandas as pd
 import pytest
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation
-from vivarium_public_health.population.spenser_population import transform_rate_table
-from vivarium_public_health.population.spenser_population import prepare_dataset
-from vivarium_public_health.population.spenser_population import compute_migration_rates
-from vivarium_public_health.population import ImmigrationDeterministic as Immigration
+from vivarium_population_spenser.population.spenser_population import TestPopulation
+from vivarium_population_spenser.population.spenser_population import transform_rate_table
+from vivarium_population_spenser.population.spenser_population import prepare_dataset
+from vivarium_population_spenser.population.spenser_population import compute_migration_rates
+from vivarium_population_spenser.population import ImmigrationDeterministic as Immigration
 
 
 

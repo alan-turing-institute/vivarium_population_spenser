@@ -2,7 +2,7 @@ from hypothesis import given
 import hypothesis.strategies as st
 import pytest
 
-from vivarium_public_health.utilities import EntityString, TargetString
+from vivarium_population_spenser.utilities import EntityString, TargetString
 
 
 @st.composite

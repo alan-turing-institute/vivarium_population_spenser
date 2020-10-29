@@ -4,11 +4,11 @@ import numpy as np
 import pandas as pd
 import pytest
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation, compute_migration_rates, transform_rate_table
-from vivarium_public_health.population import Mortality
-from vivarium_public_health.population import FertilityAgeSpecificRates
-from vivarium_public_health.population import Emigration
-from vivarium_public_health.population import ImmigrationDeterministic as Immigration
+from vivarium_population_spenser.population.spenser_population import TestPopulation, compute_migration_rates, transform_rate_table
+from vivarium_population_spenser.population import Mortality
+from vivarium_population_spenser.population import FertilityAgeSpecificRates
+from vivarium_population_spenser.population import Emigration
+from vivarium_population_spenser.population import ImmigrationDeterministic as Immigration
 
 
 

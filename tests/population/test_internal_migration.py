@@ -6,8 +6,8 @@ import pytest
 import sys
 import wget
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation, prepare_dataset, transform_rate_table
-from vivarium_public_health.population import InternalMigration
+from vivarium_population_spenser.population.spenser_population import TestPopulation, prepare_dataset, transform_rate_table
+from vivarium_population_spenser.population import InternalMigration
 
 
 @pytest.fixture()

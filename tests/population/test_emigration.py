@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import pytest
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation, compute_migration_rates
-from vivarium_public_health.population import Emigration
+from vivarium_population_spenser.population.spenser_population import TestPopulation, compute_migration_rates
+from vivarium_population_spenser.population import Emigration
 
 
 @pytest.fixture()
