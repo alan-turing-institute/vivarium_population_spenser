@@ -1,34 +1,33 @@
-Vivarium Public Health
+Vivarium Population Spenser
 ======================
 
-.. image:: https://badge.fury.io/py/vivarium-public-health.svg
-    :target: https://badge.fury.io/py/vivarium-public-health
+Welcome to the Vivarium Population Spenser repo.
+This library contains several components for for modelling population evolution for the SPENSER
+pipeline.
 
-.. image:: https://travis-ci.org/ihmeuw/vivarium_public_health.svg?branch=master
-    :target: https://travis-ci.org/ihmeuw/vivarium_public_health
-    :alt: Latest Version
+This library is largely inspired in the [``vivarium_public_health``](https://github.com/ihmeuw/vivarium_public_health.git) library,
+but it has been modified to cater for the needs of the SPENSER proyect.
 
-.. image:: https://readthedocs.org/projects/vivarium_public_health/badge/?version=latest
-    :target: https://vivarium_public_health.readthedocs.io/en/latest/?badge=latest
-    :alt: Latest Docs
+Installation
+======================
 
-.. image:: https://zenodo.org/badge/141212278.svg
-   :target: https://zenodo.org/badge/latestdoi/141212278
+To install the Vivarium Population Spenser library follow the next steps:
 
-This library contains several components for for modelling diseases and their interventions.
+  ``> git clone https://github.com/alan-turing-institute/vivarium_population_spenser.git``
 
-You can install ``vivarium_public_health`` from PyPI with pip:
+  ``> cd vivarium_population_spenser``
 
-  ``> pip install vivarium_public_health``
-
-or build it from source with
-
-  ``> git clone https://github.com/ihmeuw/vivarium_public_health.git``
-
-  ``> cd vivarium_public_health``
-
-  ``> python setup.py install``
+  ``> python install .``
 
 Documentation
 ======================
-You can view documentation at https://vivarium_public_health.readthedocs.io/en/latest/
+
+The Vivarium Population Spenser library contains
+
+
+
+CONTRIBUTING
+======================
+
+Follow our contribution guidelines :ref:`CONTRIBUTING` and checkout our code of conduct :ref:`CODE_OF_CONDUCT`
+
