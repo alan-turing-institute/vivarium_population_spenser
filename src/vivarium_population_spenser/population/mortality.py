@@ -3,8 +3,7 @@
 The Core Mortality Model
 ========================
 
-This module contains tools modeling all cause mortality and hooks for
-disease models to contribute cause-specific and excess mortality.
+This module contains tools modeling all cause mortality.
 
 """
 import pandas as pd

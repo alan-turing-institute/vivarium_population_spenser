@@ -216,7 +216,6 @@ class FertilityAgeSpecificRates:
 
         # If children were born, add them to the state table and record
         # who their mother was.
-        # TODO Need to add location and ethnicity of parents/mother to child when they are born.
         num_babies = len(had_children)
         if num_babies:
             self.simulant_creator(num_babies,
