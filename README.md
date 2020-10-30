@@ -91,7 +91,7 @@ level and the characteristics of the immigrants are sampled from the migration r
 The immigrants are assigned to a local authority and then based on their age and gender to an MSOA. 
 
 The input table to establish the total number of immigrants
- and their characteristics [Emig_2011_2012_LEEDS2.csv](persistant_data/population/Emig_2011_2012_LEEDS2.csv).
+ and their characteristics [Immig_2011_2012_LEEDS2.csv](persistant_data/population/Immig_2011_2012_LEEDS2.csv)
 
 The input table to assigned them an MSOA [Immigration_MSOA_M_F.csv](persistant_data/Immigration_MSOA_M_F.csv).
 
