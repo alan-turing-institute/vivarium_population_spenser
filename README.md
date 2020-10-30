@@ -59,7 +59,7 @@ where ```creation_time``` is the starting time of the simulation.
  
 ## Mortality:
 
-The [mortality](src/vivarium_population_spenser/mortality.py) module contains tools modeling all cause mortality based on individuals characteristics as
+The [mortality](src/vivarium_population_spenser/population/mortality.py) module contains tools modeling all cause mortality based on individuals characteristics as
 gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Mortality2011_LEEDS1_2.csv](persistant_data/Mortality2011_LEEDS1_2.csv).
@@ -68,7 +68,7 @@ Details about the computational workflow protocol followed by this component can
 
 ### Fertility:
 
-A model of [fertility](src/vivarium_population_spenser/add_new_birth_cohorts.py) based on individual characteristics as, age, location (local authority level) and ethnicity.
+A model of [fertility](src/vivarium_population_spenser/population/add_new_birth_cohorts.py) based on individual characteristics as, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Fertility2011_LEEDS1_2.csv](persistant_data/Fertility2011_LEEDS1_2.csv).
 
@@ -76,7 +76,7 @@ Details about the computational workflow protocol followed by this component can
 
 ## Emigration:
 
-This module models [emigration](src/vivarium_population_spenser/emigration.py) based on individuals characteristics as
+This module models [emigration](src/vivarium_population_spenser/population/emigration.py) based on individuals characteristics as
 gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
@@ -85,13 +85,13 @@ Details about the computational workflow protocol followed by this component can
 
 ## Immigration
 
-A deterministic [immigration](src/vivarium_population_spenser/immigration.py) model in which the total number of immigrants is read from a file
+A deterministic [immigration](src/vivarium_population_spenser/population/immigration.py) model in which the total number of immigrants is read from a file
 level and the characteristics of the immigrants are sampled from the migration rate file.
 
 The immigrants are assigned to a local authority and then based on their age and gender to an MSOA. 
 
 The input table to establish the total number of immigrants
- and their characteristics [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
+ and their characteristics [Emig_2011_2012_LEEDS2.csv](persistant_data/population/Emig_2011_2012_LEEDS2.csv).
 
 The input table to assigned them an MSOA [Immigration_MSOA_M_F.csv](persistant_data/Immigration_MSOA_M_F.csv).
 
@@ -100,7 +100,7 @@ Details about the computational workflow protocol followed by this component can
 
 ## Internal migration
 
-This module models  the [internal_migration](src/vivarium_population_spenser/internal_migration.py) between MSOAs (and their
+This module models  the [internal_migration](src/vivarium_population_spenser/population/internal_migration.py) between MSOAs (and their
 respective LADs) of individuals based on their gender, age, initial location (local authority level) and ethnicity.
 
 The input table to establish the pool of migrants that internally migrate based on 
