@@ -24,13 +24,17 @@ To install the Vivarium Population Spenser library follow the next steps:
   ``> python install .``
   
  
- If you plan to run the full pipeline we recommend it to run if from the [``Daedalous``](https://github.com/alan-turing-institute/daedalus) repo.
+ If you plan to run the microsimulation using this library we recommend it to run if from the [``Daedalous``](https://github.com/alan-turing-institute/daedalus) pipeline 
+ that contains many useful scripts to interact with this library.
 
 ## Documentation
 
 
-The Vivarium Population Spenser library contains 6 main components that help to simulate the
-evolution of an input population. There components are the following:
+The Vivarium Population Spenser library contains 6 main components used to simulate the
+evolution of an input population. You can find all the computational workflow protocols of all of these components in [here](https://www.protocols.io/workspaces/spenser).
+
+
+There components are the following:
 
 ## Population
 
@@ -60,8 +64,7 @@ gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Mortality2011_LEEDS1_2.csv](persistant_data/Mortality2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here. 
-
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn79mhr6](dx.doi.org/10.17504/protocols.io.bn79mhr6) 
 
 ### Fertility:
 
@@ -69,7 +72,7 @@ A model of [fertility](src/vivarium_population_spenser/add_new_birth_cohorts.py)
 
 This module uses as input table to establish the morality rates the table [Fertility2011_LEEDS1_2.csv](persistant_data/Fertility2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here. 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8bmhsn](dx.doi.org/10.17504/protocols.io.bn8bmhsn)
 
 ## Emigration:
 
@@ -78,7 +81,7 @@ gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here. 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8emhte](dx.doi.org/10.17504/protocols.io.bn8emhte). 
 
 ## Immigration
 
@@ -92,6 +95,9 @@ The input table to establish the total number of immigrants
 
 The input table to assigned them an MSOA [Immigration_MSOA_M_F.csv](persistant_data/Immigration_MSOA_M_F.csv).
 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9dmh26](dx.doi.org/10.17504/protocols.io.bn9dmh26)
+
+
 ## Internal migration
 
 This module models  the [internal_migration](src/vivarium_population_spenser/internal_migration.py) between MSOAs (and their
@@ -101,7 +107,9 @@ The input table to establish the pool of migrants that internally migrate based 
  their characteristics is [InternalOutmig2011_LEEDS2.csv](persistant_data/InternalOutmig2011_LEEDS2.csv).
  
  Once the pool of migrants is chosen they are assigned to a new MSOA based on their age and gender using the
- MSOA migration matrices in [od_matrices](persistant_data/od_matrices). 
+ MSOA migration matrices in [od_matrices](persistant_data/od_matrices).
+ 
+ Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9imh4e](dx.doi.org/10.17504/protocols.io.bn9imh4e) 
  
  
 # Note:
