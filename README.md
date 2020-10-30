@@ -38,7 +38,7 @@ There components are the following:
 
 ## Population
 
-The [Spenser Population component](src/vivarium_population_spenser/spenser_population.py) is used define the starting point of
+The [Spenser Population component](src/vivarium_population_spenser/population/spenser_population.py) is used define the starting point of
  the simulation from an input population (```input_population```) to be used in the microsimulation. 
  It creates a dataframe with following fields:
 
