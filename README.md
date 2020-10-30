@@ -64,7 +64,7 @@ gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Mortality2011_LEEDS1_2.csv](persistant_data/Mortality2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn79mhr6](dx.doi.org/10.17504/protocols.io.bn79mhr6) 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn79mhr6](https://dx.doi.org/10.17504/protocols.io.bn79mhr6) 
 
 ### Fertility:
 
@@ -72,7 +72,7 @@ A model of [fertility](src/vivarium_population_spenser/population/add_new_birth_
 
 This module uses as input table to establish the morality rates the table [Fertility2011_LEEDS1_2.csv](persistant_data/Fertility2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8bmhsn](dx.doi.org/10.17504/protocols.io.bn8bmhsn)
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8bmhsn](https://dx.doi.org/10.17504/protocols.io.bn8bmhsn)
 
 ## Emigration:
 
@@ -81,7 +81,7 @@ gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8emhte](dx.doi.org/10.17504/protocols.io.bn8emhte). 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8emhte](https://dx.doi.org/10.17504/protocols.io.bn8emhte). 
 
 ## Immigration
 
@@ -95,7 +95,7 @@ The input table to establish the total number of immigrants
 
 The input table to assigned them an MSOA [Immigration_MSOA_M_F.csv](persistant_data/Immigration_MSOA_M_F.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9dmh26](dx.doi.org/10.17504/protocols.io.bn9dmh26)
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9dmh26](https://dx.doi.org/10.17504/protocols.io.bn9dmh26)
 
 
 ## Internal migration
@@ -109,7 +109,7 @@ The input table to establish the pool of migrants that internally migrate based 
  Once the pool of migrants is chosen they are assigned to a new MSOA based on their age and gender using the
  MSOA migration matrices in [od_matrices](persistant_data/od_matrices).
  
- Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9imh4e](dx.doi.org/10.17504/protocols.io.bn9imh4e) 
+ Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9imh4e](https://dx.doi.org/10.17504/protocols.io.bn9imh4e) 
  
  
 # Note:
