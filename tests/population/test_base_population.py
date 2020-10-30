@@ -7,10 +7,10 @@ import pytest
 from vivarium import InteractiveContext
 from vivarium.testing_utilities import get_randomness
 
-from vivarium_public_health import utilities
-import vivarium_public_health.population.base_population as bp
-import vivarium_public_health.population.data_transformations as dt
-from vivarium_public_health.testing.utils import make_uniform_pop_data
+from vivarium_population_spenser import utilities
+import vivarium_population_spenser.population.base_population as bp
+import vivarium_population_spenser.population.data_transformations as dt
+from vivarium_population_spenser.testing.utils import make_uniform_pop_data
 
 
 @pytest.fixture
@@ -26,17 +26,17 @@ def config(base_config):
 
 @pytest.fixture
 def generate_population_mock(mocker):
-    return mocker.patch('vivarium_public_health.population.base_population.generate_population')
+    return mocker.patch('vivarium_population_spenser.population.base_population.generate_population')
 
 
 @pytest.fixture
 def age_bounds_mock(mocker):
-    return mocker.patch('vivarium_public_health.population.base_population._assign_demography_with_age_bounds')
+    return mocker.patch('vivarium_population_spenser.population.base_population._assign_demography_with_age_bounds')
 
 
 @pytest.fixture
 def initial_age_mock(mocker):
-    return mocker.patch('vivarium_public_health.population.base_population._assign_demography_with_initial_age')
+    return mocker.patch('vivarium_population_spenser.population.base_population._assign_demography_with_initial_age')
 
 
 def make_base_simulants():

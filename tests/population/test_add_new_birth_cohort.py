@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import pytest
 from vivarium import InteractiveContext
-from vivarium_public_health.population.spenser_population import TestPopulation, build_fertility_table, transform_rate_table
+from vivarium_population_spenser.population.spenser_population import TestPopulation, build_fertility_table, transform_rate_table
 
-from vivarium_public_health import utilities
-from vivarium_public_health.population import FertilityAgeSpecificRates
+from vivarium_population_spenser import utilities
+from vivarium_population_spenser.population import FertilityAgeSpecificRates
 
 
 @pytest.fixture()
@@ -55,7 +55,7 @@ def test_fertility_module(config, base_plugins):
     df = pd.read_csv(config.path_to_fertility_file)
 
     # to save time, only look at locatiosn existing on the test dataset.
-    fertility_rate_df = df[(df['LAD.code'] == 'E09000002') | (df['LAD.code'] == 'E09000003')]
+    fertility_rate_df = df[(df['LAD.code'] == 'E08000032')]
 
     asfr_data = transform_rate_table(fertility_rate_df, 2011, 2012, 10,50,[2])
 
@@ -74,7 +74,7 @@ def test_fertility_module(config, base_plugins):
     simulation.run_for(duration=pd.Timedelta(days=num_days))
 
     pop = simulation.get_population()
-    # print(pop)
+    print(pop)
 
     # No death in this model.
     assert np.all(pop.alive == 'alive'), 'expect all simulants to be alive'
