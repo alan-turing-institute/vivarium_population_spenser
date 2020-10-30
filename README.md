@@ -38,7 +38,7 @@ There components are the following:
 
 ## Population
 
-The [Spenser Population component](src/vivarium_population_spenser/spenser_population.py) is used define the starting point of
+The [Spenser Population component](src/vivarium_population_spenser/population/spenser_population.py) is used define the starting point of
  the simulation from an input population (```input_population```) to be used in the microsimulation. 
  It creates a dataframe with following fields:
 
@@ -59,48 +59,48 @@ where ```creation_time``` is the starting time of the simulation.
  
 ## Mortality:
 
-The [mortality](src/vivarium_population_spenser/mortality.py) module contains tools modeling all cause mortality based on individuals characteristics as
+The [mortality](src/vivarium_population_spenser/population/mortality.py) module contains tools modeling all cause mortality based on individuals characteristics as
 gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Mortality2011_LEEDS1_2.csv](persistant_data/Mortality2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn79mhr6](dx.doi.org/10.17504/protocols.io.bn79mhr6) 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn79mhr6](https://dx.doi.org/10.17504/protocols.io.bn79mhr6) 
 
 ### Fertility:
 
-A model of [fertility](src/vivarium_population_spenser/add_new_birth_cohorts.py) based on individual characteristics as, age, location (local authority level) and ethnicity.
+A model of [fertility](src/vivarium_population_spenser/population/add_new_birth_cohorts.py) based on individual characteristics as, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Fertility2011_LEEDS1_2.csv](persistant_data/Fertility2011_LEEDS1_2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8bmhsn](dx.doi.org/10.17504/protocols.io.bn8bmhsn)
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8bmhsn](https://dx.doi.org/10.17504/protocols.io.bn8bmhsn)
 
 ## Emigration:
 
-This module models [emigration](src/vivarium_population_spenser/emigration.py) based on individuals characteristics as
+This module models [emigration](src/vivarium_population_spenser/population/emigration.py) based on individuals characteristics as
 gender, age, location (local authority level) and ethnicity.
 
 This module uses as input table to establish the morality rates the table [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8emhte](dx.doi.org/10.17504/protocols.io.bn8emhte). 
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn8emhte](https://dx.doi.org/10.17504/protocols.io.bn8emhte). 
 
 ## Immigration
 
-A deterministic [immigration](src/vivarium_population_spenser/immigration.py) model in which the total number of immigrants is read from a file
+A deterministic [immigration](src/vivarium_population_spenser/population/immigration.py) model in which the total number of immigrants is read from a file
 level and the characteristics of the immigrants are sampled from the migration rate file.
 
 The immigrants are assigned to a local authority and then based on their age and gender to an MSOA. 
 
 The input table to establish the total number of immigrants
- and their characteristics [Emig_2011_2012_LEEDS2.csv](persistant_data/Emig_2011_2012_LEEDS2.csv).
+ and their characteristics [Immig_2011_2012_LEEDS2.csv](persistant_data/population/Immig_2011_2012_LEEDS2.csv)
 
 The input table to assigned them an MSOA [Immigration_MSOA_M_F.csv](persistant_data/Immigration_MSOA_M_F.csv).
 
-Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9dmh26](dx.doi.org/10.17504/protocols.io.bn9dmh26)
+Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9dmh26](https://dx.doi.org/10.17504/protocols.io.bn9dmh26)
 
 
 ## Internal migration
 
-This module models  the [internal_migration](src/vivarium_population_spenser/internal_migration.py) between MSOAs (and their
+This module models  the [internal_migration](src/vivarium_population_spenser/population/internal_migration.py) between MSOAs (and their
 respective LADs) of individuals based on their gender, age, initial location (local authority level) and ethnicity.
 
 The input table to establish the pool of migrants that internally migrate based on 
@@ -109,7 +109,7 @@ The input table to establish the pool of migrants that internally migrate based 
  Once the pool of migrants is chosen they are assigned to a new MSOA based on their age and gender using the
  MSOA migration matrices in [od_matrices](persistant_data/od_matrices).
  
- Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9imh4e](dx.doi.org/10.17504/protocols.io.bn9imh4e) 
+ Details about the computational workflow protocol followed by this component can be found here: [dx.doi.org/10.17504/protocols.io.bn9imh4e](https://dx.doi.org/10.17504/protocols.io.bn9imh4e) 
  
  
 # Note:
